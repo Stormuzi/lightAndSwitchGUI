@@ -43,16 +43,6 @@ public class DenGUI extends JPanel {
 
     }
 
-    //圆形类
-    static class Round extends JPanel
-    {
-        public void paint(Graphics g)
-        {
-            super.paint(g);
-            g.drawOval(num,num,num,num);        //第一层
-            g.drawLine(510,175,390,225);
-        }
-    }
     //放置输入组件
     private static void placeInputComponents(JPanel panel) {
 
@@ -95,7 +85,7 @@ public class DenGUI extends JPanel {
         // 创建load按钮
         JButton loadButton = new JButton("Load");
         loadButton.setBounds(10, 80, 80, 25);
-        //添加处理用户输入监听
+        //添加处理用户输入监听，生成灯和开关
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,6 +99,9 @@ public class DenGUI extends JPanel {
                     lightMap.clear();
                     solveLightMap.clear();
                 }
+                if(listOfbuttonLable!=null){
+                    panel.remove(listOfbuttonLable);
+                }
                 if(switchArr!=null){
                     for(JButton jButton : switchArr){
                         panel.remove(jButton);
@@ -118,8 +111,8 @@ public class DenGUI extends JPanel {
 
                 String inputLine1 = "A B C D";
                 String inputLine2 = "AB AD BD CA";
-//                inputLine1 = firstLine.getText();
-//                inputLine2 = secondLine.getText();
+                inputLine1 = firstLine.getText();
+                inputLine2 = secondLine.getText();
                 String[] line1Arr = inputLine1.split(" ");
                 lightMap = new LinkedHashMap();
                 for (int i = 0; i <line1Arr.length; i++) {
@@ -255,10 +248,10 @@ public class DenGUI extends JPanel {
         }
 
     }
-    //回溯算法
+    //回溯算法,cur为目前运算到的开关序号
     static void backTrace(int cur){
         if (isBreak) return;
-        if(cur == solveLightMap.size()){
+        if(cur == control.size()){
             int sum = 0;
             //统计开灯数量
             for (Map.Entry<String, Integer> entry : solveLightMap.entrySet()) {
